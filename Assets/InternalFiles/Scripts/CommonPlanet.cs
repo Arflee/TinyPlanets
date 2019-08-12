@@ -11,10 +11,12 @@ public class CommonPlanet : MonoBehaviour
     [SerializeField] private float maxX = 1f;
     [SerializeField] private float maxY = 1f;
 
-    [Space]
+    [Header("Difficulty settings")]
+    [SerializeField] private float secondsToMaxDifficulty = 60f;
+    [SerializeField] private float minSpeed = 0.5f;
+    [SerializeField] private float maxSpeed = 1.5f;
 
-    [SerializeField] private float speed = 5f;
-
+    private float speed = 5f;
     private Vector2 targetPosition;
 
 
@@ -28,6 +30,7 @@ public class CommonPlanet : MonoBehaviour
     {
         if ((Vector2)transform.position != targetPosition)
         {
+            speed = Mathf.Lerp(minSpeed, maxSpeed, GetDifficultyPercent());
             transform.position = 
                 Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
         }
@@ -53,5 +56,10 @@ public class CommonPlanet : MonoBehaviour
         float randomY = Random.Range(minY, maxY);
 
         return new Vector2(randomX, randomY);
+    }
+
+    private float GetDifficultyPercent()
+    {
+        return Mathf.Clamp01(Time.timeSinceLevelLoad / secondsToMaxDifficulty);
     }
 }
