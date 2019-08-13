@@ -53,7 +53,7 @@ public class CommonPlanet : MonoBehaviour
 
 
 
-    protected Vector2 GetRandomPosition()
+    protected virtual Vector2 GetRandomPosition()
     {
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
