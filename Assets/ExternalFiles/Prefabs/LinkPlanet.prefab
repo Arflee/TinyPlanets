@@ -250,6 +250,8 @@ LineRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: e0891ed2f822d994ca2cd91ddc728ccd, type: 2}
+  - {fileID: 2100000, guid: 98814b9d1f912b8438170e7c2d69ff98, type: 2}
+  - {fileID: 2100000, guid: 8df1955a2bf7f854ca652bcdfb1e6f3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -334,7 +336,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
+      m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 10
@@ -342,6 +344,6 @@ LineRenderer:
     alignment: 0
     textureMode: 3
     shadowBias: 0.5
-    generateLightingData: 1
+    generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0

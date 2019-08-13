@@ -9,19 +9,16 @@ public class LinkPlanet : CommonPlanet
 {
     private List<GameObject> otherPlanets;
     private LineRenderer planetLine;
-    private Vector3[] linePositions;
     private GameObject chosenPlanet;
 
 
 
     private void Awake()
     {
-        otherPlanets = GameObject.FindGameObjectsWithTag("LinkPlanet").ToList();
-        FindAndDeleteThisPlanet();
+        FindPlanets();
 
         planetLine = GetComponent<LineRenderer>();
-        planetLine.positionCount = otherPlanets.Count;
-        linePositions = new Vector3[otherPlanets.Count];
+        planetLine.positionCount = 2;
     }
 
     protected override void Start()
@@ -32,31 +29,30 @@ public class LinkPlanet : CommonPlanet
 
     protected override void Update()
     {
-        base.Update();
         targetPosition = chosenPlanet.transform.position;
-        planetLine.SetPositions(linePositions);
-        UpdateLinePosition();
+        DrawLine();
+
+        base.Update();
     }
 
 
 
+    private void DrawLine()
+    {
+        planetLine.SetPosition(0, this.gameObject.transform.position);
+        planetLine.SetPosition(1, chosenPlanet.transform.position);
+    }
+
     private void ChooseRandomPlanet()
     {
-        int randomIndex = UnityEngine.Random.Range(0, otherPlanets.Count);
+        int randomIndex = Random.Range(0, otherPlanets.Count);
         chosenPlanet = otherPlanets[randomIndex];
         targetPosition = chosenPlanet.transform.position;
     }
 
-    private void UpdateLinePosition()
+    private void FindPlanets()
     {
-        for (int i = 0; i < otherPlanets.Count; i++)
-        {
-            linePositions[i] = otherPlanets[i].transform.position;
-        }
-    }
-
-    private void FindAndDeleteThisPlanet()
-    {
+        otherPlanets = GameObject.FindGameObjectsWithTag("LinkPlanet").ToList();
         GameObject planetItself = otherPlanets.Find((o) => { return gameObject == o; });
         otherPlanets.Remove(planetItself);
     }
