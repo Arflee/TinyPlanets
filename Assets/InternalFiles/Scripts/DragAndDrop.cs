@@ -10,6 +10,8 @@ public class DragAndDrop : MonoBehaviour
     private Collider2D planetCollider;
     private bool moveAllowed = false;
 
+
+
     void Start()
     {
         planetCollider = GetComponent<Collider2D>();
