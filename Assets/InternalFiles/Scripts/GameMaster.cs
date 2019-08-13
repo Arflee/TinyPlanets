@@ -14,6 +14,8 @@ public class GameMaster : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this);
+        DontDestroyOnLoad(Camera.main);
+
         if (FindObjectsOfType<GameMaster>().Length > 1)
         {
             Destroy(this.gameObject);

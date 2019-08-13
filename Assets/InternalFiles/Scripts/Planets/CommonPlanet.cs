@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 
@@ -27,7 +26,7 @@ public class CommonPlanet : MonoBehaviour
     protected virtual void Start()
     {
         targetPosition = GetRandomPosition();
-        gameMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMaster>();
+        FindGameMaster();
     }
 
     protected virtual void Update()
@@ -46,7 +45,7 @@ public class CommonPlanet : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Planet"))
+        if (collision.gameObject.GetComponent<CommonPlanet>() != null)
         {
             gameMaster.ShowRestartPanel();
         }
@@ -65,5 +64,10 @@ public class CommonPlanet : MonoBehaviour
     protected float GetDifficultyPercent()
     {
         return Mathf.Clamp01(Time.timeSinceLevelLoad / secondsToMaxDifficulty);
+    }
+
+    protected void FindGameMaster()
+    {
+        gameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMaster>();
     }
 }
