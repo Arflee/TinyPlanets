@@ -22,8 +22,6 @@ public class LinkPlanet : CommonPlanet
         planetLine = GetComponent<LineRenderer>();
         planetLine.positionCount = otherPlanets.Count;
         linePositions = new Vector3[otherPlanets.Count];
-
-        
     }
 
     protected override void Start()
