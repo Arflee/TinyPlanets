@@ -16,8 +16,9 @@ public class SearchingPlanet : CommonPlanet
 
 
 
-    private void Awake()
+    protected override void  Start()
     {
+        base.Start();
         int amount = FindObjectsOfType<CommonPlanet>().Length;
         foundColls = new Collider2D[amount - 1];
 

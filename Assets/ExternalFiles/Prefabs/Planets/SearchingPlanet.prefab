@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4dd6c120320834fa24d5d7cf6c169d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 0.2
 --- !u!114 &8870544127343987697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +282,7 @@ MonoBehaviour:
   maxSpeed: 2.5
   searchingFilter:
     useTriggers: 1
-    useLayerMask: 1
+    useLayerMask: 0
     useDepth: 0
     useOutsideDepth: 0
     useNormalAngle: 0
@@ -293,5 +294,5 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  searchingArea: {fileID: 0}
+  searchingArea: {fileID: 8178628235914440199}
   areaSize: 3

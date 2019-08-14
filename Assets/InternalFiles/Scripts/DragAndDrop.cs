@@ -29,6 +29,7 @@ public class DragAndDrop : MonoBehaviour
                 case TouchPhase.Began:
                     Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
                     moveAllowed = planetCollider == touchedCollider;
+                    
                     break;
 
                 case TouchPhase.Moved:
@@ -36,10 +37,12 @@ public class DragAndDrop : MonoBehaviour
                     {
                         transform.position = new Vector2(touchPosition.x, touchPosition.y);
                     }
+
                     break;
 
                 case TouchPhase.Ended:
                     moveAllowed = false;
+
                     break;
             }
         }
