@@ -12,12 +12,12 @@ public class DragAndDrop : MonoBehaviour
 
 
 
-    void Start()
+    private void Start()
     {
         planetCollider = GetComponent<Collider2D>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         if (Input.touchCount > 0)
         {
@@ -28,10 +28,7 @@ public class DragAndDrop : MonoBehaviour
             {
                 case TouchPhase.Began:
                     Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
-                    if (planetCollider == touchedCollider)
-                    {
-                        moveAllowed = true;
-                    }
+                    moveAllowed = planetCollider == touchedCollider;
                     break;
 
                 case TouchPhase.Moved:

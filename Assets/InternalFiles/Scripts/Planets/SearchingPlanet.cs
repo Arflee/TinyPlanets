@@ -51,6 +51,6 @@ public class SearchingPlanet : CommonPlanet
     private bool FoundPlanet()
     {
         searchingArea.OverlapCollider(searchingFilter, foundColls);
-        return searchingArea.IsTouching(foundColls[0]);
+        return foundColls[0] != null && searchingArea.IsTouching(foundColls[0]);
     }
 }
