@@ -19,7 +19,6 @@ public class TeleportPlanet : CommonPlanet
 
         Destroy(signObj);
         ResetCoolDown();
-        transform.position = targetPosition;
         targetPosition = GetRandomPosition();
     }
 

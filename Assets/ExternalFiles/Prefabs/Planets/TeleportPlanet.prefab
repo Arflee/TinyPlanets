@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2299912048032750745}
   m_Layer: 8
   m_Name: TeleportPlanet
-  m_TagString: LinkPlanet
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +178,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.65
+  m_Radius: 0.9232015
 --- !u!50 &839027697273977929
 Rigidbody2D:
   serializedVersion: 4

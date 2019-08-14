@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,12 +12,14 @@ public class SearchingPlanet : CommonPlanet
     [SerializeField] private float areaSize = 1.5f;
 
     private Collider2D[] foundColls;
+    private Collider2D previousColl = null;
 
 
 
     private void Awake()
     {
-        foundColls = new Collider2D[1];
+        int amount = FindObjectsOfType<CommonPlanet>().Length;
+        foundColls = new Collider2D[amount - 1];
 
         if (searchingArea != null)
         {
@@ -27,7 +31,15 @@ public class SearchingPlanet : CommonPlanet
     {
         if (FoundPlanet())
         {
-            targetPosition = foundColls[0].gameObject.transform.position;
+            if (foundColls.Contains(previousColl) && previousColl != null)
+            {
+                targetPosition = previousColl.gameObject.transform.position;
+            }
+            else
+            {
+                targetPosition = foundColls[0].gameObject.transform.position;
+                previousColl = foundColls[0];
+            }
         }
         base.Update();
     }
