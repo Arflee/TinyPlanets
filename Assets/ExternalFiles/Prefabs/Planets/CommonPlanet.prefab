@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6706022495587915930}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6706022497484431407}
   m_RootOrder: 0
@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -91,7 +92,7 @@ GameObject:
   - component: {fileID: 6706022497484431400}
   - component: {fileID: 5286853239957799165}
   - component: {fileID: 6650881022952922728}
-  - component: {fileID: 6163229378565115426}
+  - component: {fileID: 8379489663607589394}
   m_Layer: 8
   m_Name: CommonPlanet
   m_TagString: Planet
@@ -108,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 6706022497484431406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 6706022495587915908}
   - {fileID: 6706022497533026181}
@@ -130,7 +131,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
 --- !u!50 &5286853239957799165
 Rigidbody2D:
   serializedVersion: 4
@@ -164,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4dd6c120320834fa24d5d7cf6c169d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6163229378565115426
+--- !u!114 &8379489663607589394
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,16 +174,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6706022497484431406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21dd1c0bf944f1e40a5c3e0a76c20dd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 135bbe73736cae940b0216039480ca18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minX: -8.2
-  minY: -4.2
-  maxX: 8.2
-  maxY: 4.2
   secondsToMaxDifficulty: 60
-  minSpeed: 0.5
-  maxSpeed: 1.5
+  minSpeed: 0
+  maxSpeed: 5
 --- !u!1 &6706022497533026203
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 6706022497533026203}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 6706022497484431407}
   m_RootOrder: 1
@@ -239,6 +236,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

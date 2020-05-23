@@ -1,49 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
-
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class DragAndDrop : MonoBehaviour
+namespace TinyPlanets
 {
-    private Collider2D planetCollider;
-    private bool moveAllowed = false;
-
-
-
-    private void Start()
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
+    public class DragAndDrop : MonoBehaviour
     {
-        planetCollider = GetComponent<Collider2D>();
-    }
+        private Collider2D planetCollider;
+        private bool moveAllowed = false;
 
-    private void FixedUpdate()
-    {
-        if (Input.touchCount > 0)
+        private void Start()
         {
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            planetCollider = GetComponent<Collider2D>();
+        }
 
-            switch (touch.phase)
+        private void Update()
+        {
+            if (Input.touchCount > 0)
             {
-                case TouchPhase.Began:
-                    Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
-                    moveAllowed = planetCollider == touchedCollider;
-                    
-                    break;
+                Touch touch = Input.GetTouch(0);
+                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-                case TouchPhase.Moved:
-                    if (moveAllowed)
-                    {
-                        transform.position = new Vector2(touchPosition.x, touchPosition.y);
-                    }
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
+                        moveAllowed = planetCollider == touchedCollider;
 
-                    break;
+                        break;
 
-                case TouchPhase.Ended:
-                    moveAllowed = false;
+                    case TouchPhase.Moved:
+                        if (moveAllowed)
+                            transform.position = new Vector2(touchPosition.x, touchPosition.y);
 
-                    break;
+                        break;
+
+                    case TouchPhase.Ended:
+                        moveAllowed = false;
+
+                        break;
+                }
             }
         }
     }

@@ -1,60 +1,60 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
-public class TeleportPlanet : CommonPlanet
+namespace TinyPlanets.Planets
 {
-    [Header("Teleport settings")]
-    [SerializeField] private float coolDown = 5f;
-    [SerializeField] private GameObject teleportSign = null;
-
-    private GameObject signObj;
-    private float teleportTime;
-
-
-
-    protected override void Start()
+    public class TeleportPlanet : Planet
     {
-        base.Start();
+        [SerializeField] float secondsToMaxDifficulty = 60f;
+        [SerializeField] float minTimeToTeleport = 1f;
+        [SerializeField] GameObject markPrefab = null;
 
-        Destroy(signObj);
-        ResetCoolDown();
-        targetPosition = GetRandomPosition();
-    }
+        private Vector2 targetPosition;
+        private GameObject markObject;
+        private float cooldown = 0f;
 
-    protected override void Update()
-    {
-        if (teleportTime <= 0f)
+        public override float SecondsToMaxDifficulty => secondsToMaxDifficulty;
+
+        public override float MinSpeed => 0f;
+
+        public override float MaxSpeed => minTimeToTeleport;
+
+        public override float CurrentSpeed => IncreaseDifficulty();
+
+        public override Vector2 TargetPosition => GetTargetPosition();
+
+        private void Start()
         {
-            Destroy(signObj);
-
-            transform.position = targetPosition;
-            targetPosition = GetRandomPosition();
-            ResetCoolDown();
+            ChangeTeleportPoint();
         }
-        else
+
+        protected override void Update()
         {
-            teleportTime -= Time.deltaTime;
+            if (cooldown >= CurrentSpeed)
+            {
+                cooldown = 0f;
+                transform.position = targetPosition;
+                Destroy(markObject);
+
+                ChangeTeleportPoint();
+            }
+            else
+            {
+                cooldown += Time.deltaTime;
+            }
         }
-    }
 
+        protected override float IncreaseDifficulty()
+        {
+            float levelPercentage = base.IncreaseDifficulty();
 
+            return  MaxSpeed * (1 - levelPercentage);
+        }
 
-    private void ResetCoolDown()
-    {
-        teleportTime = coolDown;
-    }
-
-    private void ShowTeleportSign(Vector2 pos)
-    {
-        signObj = Instantiate(teleportSign, pos, Quaternion.identity);
-    }
-
-    protected override Vector2 GetRandomPosition()
-    {
-        Vector2 output = base.GetRandomPosition();
-        ShowTeleportSign(output);
-
-        return output;
+        private void ChangeTeleportPoint()
+        {
+            targetPosition = GetTargetPosition();
+            markObject = Instantiate(markPrefab, targetPosition, Quaternion.identity);
+        }
     }
 }

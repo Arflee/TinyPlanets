@@ -1,73 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-
-
-[RequireComponent(typeof(DragAndDrop))]
-public class CommonPlanet : MonoBehaviour
+namespace TinyPlanets.Planets
 {
-    [Header("Outer position values")]
-    [SerializeField] private float minX = -8.2f;
-    [SerializeField] private float minY = -4.2f;
-    [SerializeField] private float maxX = 8.2f;
-    [SerializeField] private float maxY = 4.2f;
-
-    [Header("Difficulty settings")]
-    [SerializeField] protected float secondsToMaxDifficulty = 60f;
-    [SerializeField] protected float minSpeed = 0.5f;
-    [SerializeField] protected float maxSpeed = 1.5f;
-
-    protected float speed = 5f;
-    protected Vector2 targetPosition;
-    private GameMaster gameMaster;
-
-
-    protected virtual void Start()
+    public class CommonPlanet : Planet
     {
-        targetPosition = GetRandomPosition();
-        FindGameMaster();
-    }
+        [SerializeField] private float secondsToMaxDifficulty = 60f;
+        [SerializeField] private float minSpeed = 0f;
+        [SerializeField] private float maxSpeed = 10f;
 
-    protected virtual void Update()
-    {
-        if ((Vector2)transform.position != targetPosition)
+        protected Vector2 targetPosition;
+
+        public override float SecondsToMaxDifficulty => secondsToMaxDifficulty;
+        public override float MinSpeed => minSpeed;
+        public override float MaxSpeed => maxSpeed;
+        public override float CurrentSpeed => Mathf.Lerp(minSpeed, maxSpeed, IncreaseDifficulty());
+
+        public override Vector2 TargetPosition => targetPosition;
+
+        private void Start()
         {
-            speed = Mathf.Lerp(minSpeed, maxSpeed, GetDifficultyPercent());
-            transform.position = 
-                Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            targetPosition = GetTargetPosition();
         }
-        else
+
+        protected override void Update()
         {
-            targetPosition = GetRandomPosition();
+            if ((Vector2)transform.position != TargetPosition)
+                base.Update();
+            else
+                targetPosition = GetTargetPosition();
         }
-    }
-
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<CommonPlanet>() != null)
-        {
-            gameMaster.ShowRestartPanel();
-        }
-    }
-
-
-
-    protected virtual Vector2 GetRandomPosition()
-    {
-        float randomX = Random.Range(minX, maxX);
-        float randomY = Random.Range(minY, maxY);
-
-        return new Vector2(randomX, randomY);
-    }
-
-    protected float GetDifficultyPercent()
-    {
-        return Mathf.Clamp01(Time.timeSinceLevelLoad / secondsToMaxDifficulty);
-    }
-
-    protected void FindGameMaster()
-    {
-        gameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMaster>();
     }
 }
+
+

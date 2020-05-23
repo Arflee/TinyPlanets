@@ -1,57 +1,46 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-
-public class SearchingPlanet : CommonPlanet
+namespace TinyPlanets.Planets
 {
-    [SerializeField] private ContactFilter2D searchingFilter = default;
-    [SerializeField] private CircleCollider2D searchingArea = null;
-    [SerializeField] private float areaSize = 1.5f;
-
-    private Collider2D[] foundColls;
-    private Collider2D previousColl = null;
-
-
-
-    protected override void  Start()
+    public class SearchingPlanet : CommonPlanet
     {
-        base.Start();
-        int amount = FindObjectsOfType<CommonPlanet>().Length;
-        foundColls = new Collider2D[amount - 1];
+        [SerializeField] private Collider2D searchingArea = null;
+        [SerializeField] private ContactFilter2D contactFilter = default;
 
-        if (searchingArea != null)
+        private List<Collider2D> collidedPlanets;
+        private bool planetLost = false;
+
+        public override Vector2 TargetPosition => targetPosition;
+
+        private void Start()
         {
-            searchingArea.radius = areaSize;
+            collidedPlanets = new List<Collider2D>();
+            FindPlanet();
         }
-    }
 
-    protected override void Update()
-    {
-        if (FoundPlanet())
+        protected override void Update()
         {
-            if (foundColls.Contains(previousColl) && previousColl != null)
-            {
-                targetPosition = previousColl.gameObject.transform.position;
-            }
+            base.Update();
+
+            if ((Vector2)transform.position == targetPosition || planetLost)
+                targetPosition = GetTargetPosition();
             else
+                FindPlanet();
+        }
+
+        private void FindPlanet()
+        {
+            searchingArea.OverlapCollider(contactFilter, collidedPlanets);
+
+            if (collidedPlanets.Count > 0)
             {
-                targetPosition = foundColls[0].gameObject.transform.position;
-                previousColl = foundColls[0];
+                targetPosition = collidedPlanets[0].transform.position;
+                planetLost = false;
             }
         }
-        base.Update();
-    }
-
-    protected override void OnTriggerEnter2D(Collider2D collision) { return; }
-
-
-
-    private bool FoundPlanet()
-    {
-        searchingArea.OverlapCollider(searchingFilter, foundColls);
-        return foundColls[0] != null && searchingArea.IsTouching(foundColls[0]);
     }
 }
+

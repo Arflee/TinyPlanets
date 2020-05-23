@@ -1,63 +1,70 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TinyPlanets.Planets;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-
-public class GameMaster : MonoBehaviour
+namespace TinyPlanets
 {
-    [SerializeField] private GameObject restartPanel = null;
-    [SerializeField] private GameObject mainMenu = null;
-
-    private void Start()
+    public class GameMaster : MonoBehaviour
     {
-        DontDestroyOnLoad(this);
-        DontDestroyOnLoad(Camera.main);
+        [SerializeField] private GameObject restartPanel = null;
+        [SerializeField] private GameObject mainMenu = null;
 
-        if (FindObjectsOfType<GameMaster>().Length > 1)
+        private void Start()
         {
-            Destroy(this.gameObject);
+            DontDestroyOnLoad(this);
+
+            if (FindObjectsOfType<GameMaster>().Length > 1)
+            {
+                Destroy(this.gameObject);
+            }
         }
-    }
-
-    public void LoadNextLevel()
-    {
-        Time.timeScale = 1;
-        mainMenu.SetActive(false);
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-    }
-
-    public void RestartLevel()
-    {
-        Time.timeScale = 1;
-        restartPanel.SetActive(false);
-        mainMenu.SetActive(false);
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void ReturnToMenu()
-    {
-        if (!mainMenu.activeSelf)
+        private void OnEnable()
         {
-            mainMenu.SetActive(true);
-            restartPanel.SetActive(false);
+            Planet.OnCollision += ShowRestartPanel;
         }
 
-        SceneManager.LoadScene(0);
-    }
-
-    public void ShowRestartPanel()
-    {
-        if (restartPanel != null)
+        private void OnDisable()
         {
-            Time.timeScale = 0;
-            restartPanel.SetActive(true);
+            Planet.OnCollision -= ShowRestartPanel;
+        }
+
+        public void LoadNextLevel()
+        {
+            Time.timeScale = 1;
             mainMenu.SetActive(false);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        }
+
+        public void RestartLevel()
+        {
+            Time.timeScale = 1;
+            restartPanel.SetActive(false);
+            mainMenu.SetActive(false);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        }
+
+        public void ReturnToMenu()
+        {
+            if (!mainMenu.activeSelf)
+            {
+                mainMenu.SetActive(true);
+                restartPanel.SetActive(false);
+            }
+
+            SceneManager.LoadScene(0);
+        }
+
+        public void ShowRestartPanel()
+        {
+            if (restartPanel != null)
+            {
+                Time.timeScale = 0;
+                restartPanel.SetActive(true);
+                mainMenu.SetActive(false);
+            }
         }
     }
 }

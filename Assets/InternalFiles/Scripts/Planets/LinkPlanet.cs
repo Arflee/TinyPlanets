@@ -1,59 +1,51 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-
-[RequireComponent(typeof(LineRenderer))]
-public class LinkPlanet : CommonPlanet
+namespace TinyPlanets.Planets
 {
-    private List<GameObject> otherPlanets;
-    private LineRenderer planetLine;
-    private GameObject chosenPlanet;
-
-
-
-    private void Awake()
+    [RequireComponent(typeof(LineRenderer))]
+    public class LinkPlanet : CommonPlanet
     {
-        FindPlanets();
+        private LineRenderer planetsLine;
+        private LinkPlanet[] otherLinkPlanets;
+        private LinkPlanet choosedPlanet;
 
-        planetLine = GetComponent<LineRenderer>();
-        planetLine.positionCount = 2;
-    }
+        private void Start()
+        {
+            planetsLine = GetComponent<LineRenderer>();
+            otherLinkPlanets = FindObjectsOfType<LinkPlanet>();
+            targetPosition = GetTargetPosition();
+            choosedPlanet = ChoosePlanet();
 
-    protected override void Start()
-    {
-        FindGameMaster();
-        ChooseRandomPlanet();
-    }
+            planetsLine.positionCount = 2;
+            SetLines();
+        }
 
-    protected override void Update()
-    {
-        targetPosition = chosenPlanet.transform.position;
-        DrawLine();
+        protected override void Update()
+        {
+            targetPosition = choosedPlanet.transform.position;
+            base.Update();
+        }
 
-        base.Update();
-    }
+        private void LateUpdate()
+        {
+            SetLines();
+        }
 
+        private LinkPlanet ChoosePlanet()
+        {
+            var withoutItself = otherLinkPlanets.Where(planet => planet != this).ToArray();
+            var randomIndex = Random.Range(0, withoutItself.Length - 1);
 
+            return withoutItself[randomIndex];
+        }
 
-    private void DrawLine()
-    {
-        planetLine.SetPosition(0, this.gameObject.transform.position);
-        planetLine.SetPosition(1, chosenPlanet.transform.position);
-    }
-
-    private void ChooseRandomPlanet()
-    {
-        int randomIndex = Random.Range(0, otherPlanets.Count);
-        chosenPlanet = otherPlanets[randomIndex];
-        targetPosition = chosenPlanet.transform.position;
-    }
-
-    private void FindPlanets()
-    {
-        otherPlanets = GameObject.FindGameObjectsWithTag("LinkPlanet").ToList();
-        GameObject planetItself = otherPlanets.Find((o) => { return gameObject == o; });
-        otherPlanets.Remove(planetItself);
+        private void SetLines()
+        {
+            planetsLine.SetPosition(0, transform.position);
+            planetsLine.SetPosition(1, choosedPlanet.transform.position);
+        }
     }
 }
+
